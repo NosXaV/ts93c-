@@ -20,13 +20,13 @@ jobs:
           dotnet-version: '6.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore PhoenixTS93/PhoenixTS93.csproj
+        run: dotnet restore PhoenixTS93.csproj
 
       - name: Build
-        run: dotnet build PhoenixTS93/PhoenixTS93.csproj --configuration Release --no-restore
+        run: dotnet build PhoenixTS93.csproj --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish PhoenixTS93/PhoenixTS93.csproj --configuration Release --output publish --runtime win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true
+        run: dotnet publish PhoenixTS93.csproj --configuration Release --output publish --runtime win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true
 
       - name: Upload EXE
         uses: actions/upload-artifact@v4
