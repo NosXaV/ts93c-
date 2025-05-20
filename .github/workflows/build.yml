@@ -1,35 +1,34 @@
-name: Build PhoenixTS93
+name: Build EXE
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '6.0.x'
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
 
-      - name: Restore dependencies
-        run: dotnet restore PhoenixTS93.csproj
+    - name: Restore dependencies
+      run: dotnet restore PhoenixTS93/PhoenixTS93.csproj
 
-      - name: Build
-        run: dotnet build PhoenixTS93.csproj --configuration Release --no-restore
+    - name: Build
+      run: dotnet build PhoenixTS93/PhoenixTS93.csproj -c Release
 
-      - name: Publish
-        run: dotnet publish PhoenixTS93.csproj --configuration Release --output publish --runtime win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true
+    - name: Publish
+      run: dotnet publish PhoenixTS93/PhoenixTS93.csproj -c Release -o ./publish
 
-      - name: Upload EXE
-        uses: actions/upload-artifact@v4
-        with:
-          name: PhoenixTS93
-          path: publish/
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: PhoenixTS93
+        path: ./publish
